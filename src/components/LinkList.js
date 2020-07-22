@@ -13,7 +13,7 @@ export const FEED_QUERY = gql `
         createdAt
         title
         artist
-        genre
+        tags
         url
         description
         postedBy {
@@ -45,7 +45,6 @@ class LinkList extends Component {
     //       }
     //     })
     //   }
-    
     render() {
         return (
             //  variables={this._getQueryVariables()}>
@@ -53,7 +52,6 @@ class LinkList extends Component {
                 {({ loading, error, data, subscribeToMore}) => {
                     if(loading) return <div>Fetching</div>
                     if(error) return <div>Error</div>
-
                     {/* this._subscribeToNewLinks(subscribeToMore) */}
                     const linksToRender = data.feed.links;
                     return (
@@ -65,7 +63,6 @@ class LinkList extends Component {
                                 />)
                             )} </div>
                     )
-
                 }}
             </Query>
         )
