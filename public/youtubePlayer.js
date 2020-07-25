@@ -3,14 +3,13 @@ tag.id = 'iframe-demo';
 tag.src = 'https://www.youtube.com/iframe_api';
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-let player = []
+let player = [], nextId
 function onYouTubeIframeAPIReady() {
-
-    for(let i = 0; i < 100; i++){
+    // console.log(window.count);
+    for(let i = 0; i < window.count; i++){
         const element = document.getElementById(`yp${i}`)
         if(!element) {
-            console.log('no element yp', i)
+            // console.log('no element yp', i)
             break
         }
         player[i] = new YT.Player(`yp${i}`, {
@@ -19,14 +18,13 @@ function onYouTubeIframeAPIReady() {
                 'onStateChange': onPlayerStateChange
             },
         });
-
     }
-    console.log(player)
+    // console.log(player)
 }
+
 function onPlayerReady(event) {
-  console.log('onplayerReady', event.target.f.id)
+//   console.log('onplayerReady', event.target.f.id)
 }
-let nextId;
 
 function onPlayerStateChange(event) {
     // console.log('onStateChange', event.target.f.id, event.data)
@@ -40,7 +38,7 @@ function onPlayerStateChange(event) {
                 player[i].stopVideo();
             }
         }
-        console.log(nextId)
+        // console.log(nextId)
     } else if (event.data == YT.PlayerState.ENDED && nextId < player.length) {
     // autoplay next video on page
         player[nextId].playVideo()

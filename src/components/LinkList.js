@@ -54,6 +54,7 @@ class LinkList extends Component {
                     if(error) return <div>Error</div>
                     {/* this._subscribeToNewLinks(subscribeToMore) */}
                     const linksToRender = data.feed.links;
+                    window.count = data.feed.count
                     return (
                         <div>{linksToRender.map((link, index) => (
                             <Link 

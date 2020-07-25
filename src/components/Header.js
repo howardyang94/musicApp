@@ -9,9 +9,16 @@ class Header extends Component {
         return (
           <div className="flex pa3 f4 justify-between headerColor">
             <div className="flex flex-fixed black">
-              <div className="fw7 mr1">Howie's Music WebApp </div>
-              <Link to="/" className="ml1 no-underline black">
-                new
+              {/* <div className="fw7 mr2">Howie's Music WebApp </div> */}
+              <Link to="/" className="fw7 mr2 no-underline black">
+              Howie's Music WebApp
+              </Link>
+              {/* <Link to="/top" className="ml1 no-underline black">
+                Top
+              </Link>
+              <div className="ml1">|</div> */}
+              <Link to="/search" className="ml1 no-underline black">
+                search
               </Link>
               {authToken && (
                 <div className="flex">

@@ -75,7 +75,7 @@ class CreateLink extends Component {
                 <div className="flex flex-column mt3">
                     Title
                     <input
-                        className="mb2"
+                        className="mb2 mt1"
                         name="title"
                         value={title}
                         onChange={e => this.handleInput(e, true)}
@@ -85,7 +85,7 @@ class CreateLink extends Component {
                     />
                     Artist
                     <input
-                        className="mb2"
+                        className="mb2 mt1"
                         name="artist"
                         value={artist}
                         onChange={e => this.handleInput(e, true)}
@@ -95,7 +95,7 @@ class CreateLink extends Component {
                     />
                     Tags
                     <input
-                        className="mb2"
+                        className="mb2 mt1"
                         name="tags"
                         value={tags}
                         onChange={e => this.handleInput(e, true)}
@@ -104,7 +104,7 @@ class CreateLink extends Component {
                     />
                     Description
                     <input
-                        className="mb2"
+                        className="mb2 mt1"
                         name="description"
                         value={description}
                         onChange={e => this.handleInput(e)}
@@ -113,7 +113,7 @@ class CreateLink extends Component {
                     />
                     Links
                     <input
-                        className="mb2"
+                        className="mb2 mt1"
                         name="url"
                         value={url}
                         onChange={e => this.handleInput(e)}
@@ -134,7 +134,7 @@ class CreateLink extends Component {
                         })
                     }}
                 >
-                    {postMutation => <button disabled={!this.state.formValid} onClick={postMutation}>Submit</button>}
+                    {postMutation => <button class="button mt2" disabled={!this.state.formValid} onClick={postMutation}>Submit</button>}
                 </Mutation>
             </div>
         )
