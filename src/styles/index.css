@@ -43,10 +43,18 @@ input {
   max-width: 250px;
 }
 
-.advSearch {
-
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
 }
 
+.tag{
+  border:solid 2px #d6d6d6d2;
+  background-color: rgba(234, 255, 254, 0.884);
+
+}
 
 
 /* Link Styles */

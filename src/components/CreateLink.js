@@ -17,18 +17,33 @@ const POST_MUTATION = gql`
         }
     }
 `
+const EDIT_MUTATION = gql`
+    mutation EditMutation($id:ID!, $title: String, $artist: String, $tags: String, $description: String, $url: String) {
+        edit(id: $id, title: $title, artist: $artist, tags: $tags, description: $description, url: $url) {
+            id
+            createdAt
+            title
+            artist
+            tags
+            description
+            url
+        }
+    }
+`
 
 class CreateLink extends Component {
     state = {
-        title: '',
-        artist: '',
-        tags: '',
-        description: '',
-        url: '',
-        titleValid: false,
-        artistValid: false,
-        formValid: false,
-        formErrors: {title:'', artist:''}
+        id: this.props.id,
+        title: this.props.title || '',
+        artist: this.props.artist || '',
+        tags: this.props.tags || '',
+        description: this.props.description || '',
+        url: this.props.url || '',
+        titleValid: this.props.id ? true : false,
+        artistValid: this.props.id ? true : false,
+        formValid: this.props.id ? true : false,
+        formErrors: {title:'', artist:''},
+        edit: this.props.id ? true : false,
     }
     handleInput(e, req = false) {
         const name = e.target.name
@@ -41,6 +56,7 @@ class CreateLink extends Component {
         }
     }
     validateField(name, value) {
+        console.log(this.state)
         let titleValid = this.state.titleValid
         let artistValid = this.state.artistValid
         let formErrors = this.state.formErrors
@@ -54,7 +70,7 @@ class CreateLink extends Component {
                 formErrors.artist = artistValid ? '' : 'Please enter an Artist'
                 break;
             default: 
-                console.warn('need to create validation case for ', name)
+            //     console.warn('need to create validation case for ', name)
         }
         this.setState({
             titleValid: titleValid,
@@ -64,9 +80,27 @@ class CreateLink extends Component {
         })
     }
 
-    render () {
+    complete(action) {
+        if(action === 'cancel') {
+            this.setState({
+                id: this.props.id,
+                title: this.props.title || '',
+                artist: this.props.artist || '',
+                tags: this.props.tags || '',
+                description: this.props.description || '',
+                url: this.props.url || '',
+                titleValid: this.props.id ? true : false,
+                artistValid: this.props.id ? true : false,
+                formValid: this.props.id ? true : false,
+                formErrors: {title:'', artist:''},
+                edit: this.props.id ? true : false,
+            })
+        }
+        this.props.editCallback(false)
+    }
 
-        const { title, artist, tags, description, url } = this.state
+    render () {
+        const { id, title, artist, tags, description, url } = this.state
         return(
             <div>
                 <div className="panel panel-default">
@@ -80,7 +114,7 @@ class CreateLink extends Component {
                         value={title}
                         onChange={e => this.handleInput(e, true)}
                         type="text"
-                        placeholder="Song Title"
+                        // placeholder="Song Title"
                         required
                     />
                     Artist
@@ -90,7 +124,7 @@ class CreateLink extends Component {
                         value={artist}
                         onChange={e => this.handleInput(e, true)}
                         type="text"
-                        placeholder="Artist / Band Name"
+                        // placeholder="Artist / Band Name"
                         required
                     />
                     Tags
@@ -100,7 +134,7 @@ class CreateLink extends Component {
                         value={tags}
                         onChange={e => this.handleInput(e, true)}
                         type="text"
-                        placeholder="Tags"
+                        // placeholder="Tags"
                     />
                     Description
                     <input
@@ -109,7 +143,7 @@ class CreateLink extends Component {
                         value={description}
                         onChange={e => this.handleInput(e)}
                         type="text"
-                        placeholder="A description for your post"
+                        // placeholder="A description for your post"
                     />
                     Links
                     <input
@@ -118,24 +152,45 @@ class CreateLink extends Component {
                         value={url}
                         onChange={e => this.handleInput(e)}
                         type="text"
-                        placeholder="Associated links"
+                        // placeholder="Associated links"
                     />
                 </div>
-                <Mutation
-                    mutation={POST_MUTATION}
-                    variables={{title,artist,tags,description,url}}
-                    onCompleted={() => this.props.history.push('/')}
-                    update={(store, { data: { post } }) => {
-                        const data = store.readQuery({ query: FEED_QUERY })
-                        data.feed.links.unshift(post)
-                        store.writeQuery({
-                            query: FEED_QUERY,
-                            data
-                        })
-                    }}
-                >
-                    {postMutation => <button class="button mt2" disabled={!this.state.formValid} onClick={postMutation}>Submit</button>}
-                </Mutation>
+                <div hidden={this.state.edit}>
+                    <Mutation
+                        mutation={POST_MUTATION}
+                        variables={{title,artist,tags,description,url}}
+                        onCompleted={() => this.props.history.push('/')}
+                        update={(store, { data: { post } }) => {
+                            const data = store.readQuery({ query: FEED_QUERY })
+                            data.feed.links.unshift(post)
+                            store.writeQuery({
+                                query: FEED_QUERY,
+                                data
+                            })
+                        }}
+                    >
+                        {postMutation => <button className="button mt2" disabled={!this.state.formValid} onClick={postMutation}>Submit</button>}
+                    </Mutation>
+                </div>
+                <div hidden={!this.state.edit}>
+                    <button className="button mt2" onClick={() => this.complete('close')}>Close</button>
+                    <button className="button mt2 ma3" onClick={() => this.complete('cancel')}>Discard Changes</button>
+                    <Mutation
+                        mutation={EDIT_MUTATION}
+                        variables={{id,title,artist,tags,description,url}}
+                        onCompleted={() => this.complete('save')}
+                    >
+                        {editMutation => (
+                            <button className="button mt2" 
+                                disabled={!this.state.formValid} 
+                                onClick={editMutation}>
+                                Save
+                            </button>
+                        )}
+                    </Mutation>
+
+
+                </div>
             </div>
         )
     }
