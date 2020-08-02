@@ -114,7 +114,6 @@ class CreateLink extends Component {
                         value={title}
                         onChange={e => this.handleInput(e, true)}
                         type="text"
-                        // placeholder="Song Title"
                         required
                     />
                     Artist
@@ -124,7 +123,6 @@ class CreateLink extends Component {
                         value={artist}
                         onChange={e => this.handleInput(e, true)}
                         type="text"
-                        // placeholder="Artist / Band Name"
                         required
                     />
                     Tags
@@ -134,7 +132,6 @@ class CreateLink extends Component {
                         value={tags}
                         onChange={e => this.handleInput(e, true)}
                         type="text"
-                        // placeholder="Tags"
                     />
                     Description
                     <input
@@ -143,7 +140,6 @@ class CreateLink extends Component {
                         value={description}
                         onChange={e => this.handleInput(e)}
                         type="text"
-                        // placeholder="A description for your post"
                     />
                     Links
                     <input
@@ -152,7 +148,6 @@ class CreateLink extends Component {
                         value={url}
                         onChange={e => this.handleInput(e)}
                         type="text"
-                        // placeholder="Associated links"
                     />
                 </div>
                 <div hidden={this.state.edit}>

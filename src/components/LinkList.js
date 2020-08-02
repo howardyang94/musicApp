@@ -45,6 +45,14 @@ class LinkList extends Component {
     //       }
     //     })
     //   }
+    _updateCacheAfterRemove = (store, remove, linkId) => {
+        const data = store.readQuery({ query: FEED_QUERY})
+        // remove is Link that is being removed
+        const removeIndex = data.feed.links.findIndex(link => linkId === link.id)
+        data.feed.links.splice(removeIndex, 1)
+
+        store.writeQuery({ query: FEED_QUERY, data })
+    }
     render() {
         return (
             //  variables={this._getQueryVariables()}>
@@ -61,6 +69,7 @@ class LinkList extends Component {
                                 key={link.id}
                                 link={link}
                                 index={index}
+                                updateCacheAfterRemove={this._updateCacheAfterRemove}
                                 />)
                             )} </div>
                     )

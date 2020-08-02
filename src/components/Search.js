@@ -108,7 +108,6 @@ class Search extends Component {
 
   _executeSearch = async () => {
     const { filter, title, artist, tags, match, desc } = this.state
-    console.log(filter, title, artist, tags, match, desc)
     const result = await this.props.client.query({
       query: FEED_SEARCH_QUERY,
       variables: { filter, title, artist, tags, match, desc },
