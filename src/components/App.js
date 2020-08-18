@@ -8,11 +8,24 @@ import Header from './Header'
 import Login from './Login'
 import { Switch, Route } from 'react-router-dom'
 import Search from './Search';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
 class App extends Component {
+
   render() {
+    // const ps = new PerfectScrollbar('#container')
+    const ps = new PerfectScrollbar('#container', {
+      wheelSpeed: 2,
+      wheelPropagation: true,
+      minScrollbarLength: 20
+    });
     return (
-      <div className="center w85">
+      <PerfectScrollbar
+              id="top"
+              // onScrollY={container => console.log(`scrolled to: ${container.scrollTop}.`)}
+              className="w95">
         <Header />
         <div className="ph3 pv1 background-gray">
           <Switch>
@@ -22,7 +35,7 @@ class App extends Component {
             <Route exact path="/search" component={Search} />
           </Switch>
         </div>
-      </div>
+      </PerfectScrollbar>
     )
   }
 }

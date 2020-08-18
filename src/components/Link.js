@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import CreateLink from './CreateLink'
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
-
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Media from 'react-bootstrap/Media'
 // import { AUTH_TOKEN } from '../constants'
 // import { timeDifferenceForDate } from '../utils'
 const DELETE_MUTATION = gql`
@@ -71,7 +74,7 @@ class Link extends Component {
         if(youtubeUrl) {
             return (
             <iframe id={'yp' + (this.props.index)}
-                width="460" height="270"
+                width="440" height="300"
                 src={youtubeUrl}
             ></iframe>
             )
@@ -95,43 +98,51 @@ class Link extends Component {
         const postedBy = this.state.showPosted ? postedBy() : null
         // // const authToken = localStorage.getItem(AUTH_TOKEN)
         return (
-            <div>
-                <article className="bt bb b--black-10 self-center" hidden={this.state.edit}>
-                        <div className="flex flex-column flex-row-ns" >
-                            {youtubePlayer}
-                            <div className="pl3-ns">
-                                <h1 className="f2 fw1 baskerville mt0 lh-title">{this.props.link.title}</h1><h2>{this.props.link.artist} </h2>
+            <Media>
+                {!this.state.edit && (
+                    <Container fluid="lg" className="link" >
+                        <Row xs={1} s={1} md={1} lg={2} xl={2}>
+                            <Col xs sm = "12" md lg xl="5">
+                             {/* className="black-border"> */}
+                                {youtubePlayer}
+                            </Col>
+                            <Col xs sm = "12" md lg xl="auto">
+                             {/* className="blue-border"> */}
+                                <h1 className="title">{this.props.link.title}</h1><h2 className="artist">{this.props.link.artist} </h2>
                                 <p className="f6 f5-l lh-copy">
                                     {this.props.link.description}
                                 </p>
                                 {tagsArr}
                                 {postedBy}
-                            </div>
-                        </div>
-                        <button className="button mt2" hidden={this.state.edit} onClick={() => this.setState({edit: !this.state.edit})}>edit</button>                
-                        <Mutation 
-                            mutation={DELETE_MUTATION}
-                            variables={{id}}
-                            update={(store, { data: { remove } }) => {
-                                this.props.updateCacheAfterRemove(store, remove, id)
-                            }}
-                        >
-                            {deleteMutation => <button className="button mt2" onClick={deleteMutation}>delete</button>}
-                        </Mutation>
-                </article>
-                <div className="mb3" hidden={!this.state.edit}>
-                        <CreateLink
-                            id={id}
-                            title={title}
-                            artist={artist}
-                            description={description}
-                            tags={tags}
-                            url={url}
-                            editCallback={this.editCallback}
-                        />
-                        {/* <button hidden={!this.state.edit} onClick={() => this.setState({edit: !this.state.edit})}>cancel</button> */}
-                </div>  
-            </div>
+                            </Col>
+                            <Col xs sm md lg xl="auto">
+                            {/*   className="black-border"> */}
+                                <button className="button mt2" onClick={() => this.setState({edit: !this.state.edit})}>edit</button>                
+                                <Mutation 
+                                    mutation={DELETE_MUTATION}
+                                    variables={{id}}
+                                    update={(store, { data: { remove } }) => {
+                                        this.props.updateCacheAfterRemove(store, remove, id)
+                                    }}
+                                >
+                                    {deleteMutation => <button className="button mt2" onClick={deleteMutation}>delete</button>}
+                                </Mutation>
+                            </Col>
+                        </Row>
+                </Container>
+                )}
+                {this.state.edit && 
+                    <CreateLink
+                        id={id}
+                        title={title}
+                        artist={artist}
+                        description={description}
+                        tags={tags}
+                        url={url}
+                        editCallback={this.editCallback}
+                    />
+                }
+            </Media>
         )
     }
 }

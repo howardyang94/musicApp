@@ -7,29 +7,32 @@ class Header extends Component {
     render() {
         const authToken = localStorage.getItem(AUTH_TOKEN)
         return (
-          <div className="flex pa3 f4 justify-between headerColor">
-            <div className="flex flex-fixed black">
+          <div className="d-flex flex-row header">
+            {/* <div className="d-inline-flex flex-fixed black"> */}
+            <div className="p-2">
               {/* <div className="fw7 mr2">Howie's Music WebApp </div> */}
-              <Link to="/" className="fw7 mr2 no-underline black">
-              Howie's Music WebApp
+              <Link to="/" className="header-title no-underline black">
+                Howie's Music WebApp
               </Link>
+              </div>
               {/* <Link to="/top" className="ml1 no-underline black">
                 Top
               </Link>
               <div className="ml1">|</div> */}
-              <Link to="/search" className="ml1 no-underline black">
-                search
-              </Link>
-              {authToken && (
-                <div className="flex">
-                  <div className="ml1">|</div>
-                  <Link to="/create" className="ml1 no-underline black">
-                    submit
-                  </Link>
-                </div>
-              )}
-            </div>
-            <div className="flex flex-fixed">
+              <div className="p-2 pointer">
+                <Link to="/search" className="ml1 no-underline black">
+                  search
+                </Link>
+              </div>
+              <div className="p-2">
+                {authToken && (
+                      <Link to="/create" className="ml1 no-underline black">
+                        submit
+                      </Link>
+                )}
+              </div>
+            {/* <div className="flex flex-fixed"> */}
+            <div className="p-2 ml-auto">
               {authToken ? (
                 <div
                   className="ml1 pointer black"

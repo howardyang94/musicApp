@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
 import Link from './Link'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 const FEED_SEARCH_QUERY = gql`
   query FeedSearchQuery($filter: String, $title: String, $artist: String, $tags: String, $match: String, $desc: String) {
@@ -32,48 +35,60 @@ class Search extends Component {
     tags:'',
     match:'',
     desc:'',
-    hidden: true
+    showAdv: false
   }
 
   render() {
     return (
-      <div>
-        <div className="pb2">
-          <label className="pr2" for="search">Search</label>
+      <Container>
+        <Row>
+          <Col xs sm = "12" md lg xl ="auto">Search</Col><Col xs sm md lg xl ="auto">
           <input
             id="search"
             type='text'
             onChange={e => this.setState({ filter: e.target.value })}
           />
-          <button className="button ml3" onClick={() => this.showSearch()}>{this.state.hidden?'Show':'Hide'} Advanced Search</button>
-        </div>
-        <div id="advancedSearch" hidden={this.state.hidden}>
-          Advanced Search
-          <div className="pt1">
-            <label className="pr2" for="title">Title</label>
-            <input
-              className="mr3"
-              id='title'
-              type='text'
-              onChange={e => this.setState({ title: e.target.value })}
-            />
-            <label className="pr2" for="artist">Artist</label>
-            <input
-              className="mr3"
-              id='artist'
-              type='text'
-              onChange={e => this.setState({ artist: e.target.value })}
-            />
-          </div>
-          <div className="pt1">
-            <label className="pr2" for="tags">Tags</label> 
+          </Col>
+          <Col>
+            <button className="button ml3" onClick={() => this.showSearch()}>{this.state.showAdv?'Hide':'Show'} Advanced Search</button>
+          </Col>
+        </Row>
+        
+        {this.state.showAdv && (
+          <div id="advancedSearch">
+          <hr></hr>
+          <Row>
+          <Col xs sm = "12" md lg xl ="1">Title</Col>
+          <Col>
+              <input
+                className="mr3"
+                id='title'
+                type='text'
+                onChange={e => this.setState({ title: e.target.value })}
+              />
+            </Col>
+            <Col xs sm = "12" md lg xl ="1">Artist</Col>
+            <Col>
+              <input
+                className="mr3"
+                id='artist'
+                type='text'
+                onChange={e => this.setState({ artist: e.target.value })}
+              />
+            </Col>
+          </Row>
+          <Row>
+          <Col xs sm = "12" md lg xl ="1">Tags</Col>            
+          <Col>
             <input
               className="mr3"
               id='tags'
               type='text'
               onChange={e => this.setState({ tags: e.target.value })}
             />
-            <label className="pr2" for="match">Match
+            </Col>
+            <Col xs sm = "12" md lg xl ="1">Match</Col>
+            <Col>
               <select
                 id='match'
                 className="mr1 ml1"
@@ -83,27 +98,32 @@ class Search extends Component {
                 <option value="all">All</option>
               </select>
               Tags
-            </label> 
-          </div>
-          <div className="pt1">
-            <label className="pr2" for="description">Description</label>
-            <input
-              id='description'
-              className="mr3"
-              type='text'
-              onChange={e => this.setState({ desc: e.target.value })}
-            />
-            </div>
+            </Col>
+          </Row>
+          
+          <Row>
+          <Col xs sm = "12" md lg xl ="1">Description</Col>
+          <Col>
+              <input
+                id='description'
+                className="mr3"
+                type='textarea'
+                onChange={e => this.setState({ desc: e.target.value })}
+              />
+            </Col>
+
+          </Row>
+          <button className="mt1 mb3 button" onClick={() => this._executeSearch()}>Search</button>
+          {this.state.links.map((link, index) => (
+            <Link key={link.id} link={link} index={index} />
+          ))}
         </div>
-        <button className="mt1 mb3 button" onClick={() => this._executeSearch()}>Search</button>
-        {this.state.links.map((link, index) => (
-          <Link key={link.id} link={link} index={index} />
-        ))}
-      </div>
+        )}
+      </Container>
     )
   }
   showSearch() {
-    this.setState({hidden: !this.state.hidden})
+    this.setState({showAdv: !this.state.showAdv})
   }
 
   _executeSearch = async () => {

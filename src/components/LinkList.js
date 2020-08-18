@@ -64,14 +64,19 @@ class LinkList extends Component {
                     const linksToRender = data.feed.links;
                     window.count = data.feed.count
                     return (
-                        <div>{linksToRender.map((link, index) => (
-                            <Link 
+                        <div className="link-list">{linksToRender.map((link, index) => (
+                            <Link
+                                
                                 key={link.id}
                                 link={link}
                                 index={index}
                                 updateCacheAfterRemove={this._updateCacheAfterRemove}
-                                />)
-                            )} </div>
+                                />
+                            ))} 
+                            <div className="page-bottom "> 
+                                <a className="no-underline" href="#top">Back to Top</a>
+                            </div>
+                        </div>
                     )
                 }}
             </Query>

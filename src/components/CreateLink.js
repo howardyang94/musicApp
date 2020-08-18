@@ -3,6 +3,9 @@ import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import FormErrors from './FormErrors'
 import { FEED_QUERY } from './LinkList'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 const POST_MUTATION = gql`
     mutation PostMutation($title: String!, $artist: String!, $tags: String, $description: String, $url: String) {
@@ -102,55 +105,83 @@ class CreateLink extends Component {
     render () {
         const { id, title, artist, tags, description, url } = this.state
         return(
-            <div>
+            <Container>
                 <div className="panel panel-default">
                     <FormErrors formErrors={this.state.formErrors} />
                 </div>
-                <div className="flex flex-column mt3">
-                    Title
-                    <input
-                        className="mb2 mt1"
-                        name="title"
-                        value={title}
-                        onChange={e => this.handleInput(e, true)}
-                        type="text"
-                        required
-                    />
-                    Artist
-                    <input
-                        className="mb2 mt1"
-                        name="artist"
-                        value={artist}
-                        onChange={e => this.handleInput(e, true)}
-                        type="text"
-                        required
-                    />
-                    Tags
-                    <input
-                        className="mb2 mt1"
-                        name="tags"
-                        value={tags}
-                        onChange={e => this.handleInput(e, true)}
-                        type="text"
-                    />
-                    Description
-                    <input
-                        className="mb2 mt1"
-                        name="description"
-                        value={description}
-                        onChange={e => this.handleInput(e)}
-                        type="text"
-                    />
-                    Links
-                    <input
-                        className="mb2 mt1"
-                        name="url"
-                        value={url}
-                        onChange={e => this.handleInput(e)}
-                        type="text"
-                    />
-                </div>
-                <div hidden={this.state.edit}>
+                    <Row>
+                        <Col className="submit-title" xs sm = "12" md lg = "2" xl = "1">
+                            Title
+                        </Col>
+                        <Col>
+                            <input
+                                className="item"
+                                name="title"
+                                value={title}
+                                onChange={e => this.handleInput(e, true)}
+                                type="text"
+                                required
+                            />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className="submit-title" xs sm = "12" md lg = "2" xl = "1">
+                            Artist
+                        </Col>
+                        <Col>
+                            <input
+                                className="item"
+                                name="artist"
+                                value={artist}
+                                onChange={e => this.handleInput(e, true)}
+                                type="text"
+                                required
+                            />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs sm = "12" md lg = "2" xl = "1">
+                            Tags
+                        </Col>
+                        <Col>
+                            <input
+                                className="item"
+                                name="tags"
+                                value={tags}
+                                onChange={e => this.handleInput(e, true)}
+                                type="text"
+                            />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs sm = "12" md lg = "2" xl = "1">
+                            Description
+                        </Col>
+                        <Col>
+                        <input
+                            className="item"
+                            name="description"
+                            value={description}
+                            onChange={e => this.handleInput(e)}
+                            type="text"
+                        />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs sm = "12" md lg = "2" xl = "1">
+                            Links
+                        </Col>
+                        <Col>
+                            <input
+                                className="item"
+                                name="url"
+                                value={url}
+                                onChange={e => this.handleInput(e)}
+                                type="text"
+                            />
+                        </Col>
+                    </Row>
+                {!this.state.edit && (
                     <Mutation
                         mutation={POST_MUTATION}
                         variables={{title,artist,tags,description,url}}
@@ -164,29 +195,29 @@ class CreateLink extends Component {
                             })
                         }}
                     >
-                        {postMutation => <button className="button mt2" disabled={!this.state.formValid} onClick={postMutation}>Submit</button>}
+                        {postMutation => <button className="button submit-link" disabled={!this.state.formValid} onClick={postMutation}>Submit</button>}
                     </Mutation>
-                </div>
-                <div hidden={!this.state.edit}>
-                    <button className="button mt2" onClick={() => this.complete('close')}>Close</button>
-                    <button className="button mt2 ma3" onClick={() => this.complete('cancel')}>Discard Changes</button>
-                    <Mutation
-                        mutation={EDIT_MUTATION}
-                        variables={{id,title,artist,tags,description,url}}
-                        onCompleted={() => this.complete('save')}
-                    >
-                        {editMutation => (
-                            <button className="button mt2" 
-                                disabled={!this.state.formValid} 
-                                onClick={editMutation}>
-                                Save
-                            </button>
-                        )}
-                    </Mutation>
-
-
-                </div>
-            </div>
+                )}
+                {this.state.edit && (
+                    <div>
+                        <button className="button mt2" onClick={() => this.complete('close')}>Close</button>
+                        <button className="button mt2 ma3" onClick={() => this.complete('cancel')}>Discard Changes</button>
+                        <Mutation
+                            mutation={EDIT_MUTATION}
+                            variables={{id,title,artist,tags,description,url}}
+                            onCompleted={() => this.complete('save')}
+                        >
+                            {editMutation => (
+                                <button className="button mt2" 
+                                    disabled={!this.state.formValid} 
+                                    onClick={editMutation}>
+                                    Save
+                                </button>
+                            )}
+                        </Mutation>
+                    </div>
+                )}            
+            </Container>
         )
     }
 }
