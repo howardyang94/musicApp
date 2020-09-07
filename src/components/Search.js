@@ -41,8 +41,11 @@ class Search extends Component {
   render() {
     return (
       <Container>
+        <Row className="search-title">
+            Search In All Fields
+        </Row>
         <Row>
-          <Col xs sm = "12" md lg xl ="auto">Search</Col><Col xs sm md lg xl ="auto">
+          <Col xs sm md lg xl ="auto">
           <input
             id="search"
             type='text'
@@ -50,48 +53,55 @@ class Search extends Component {
           />
           </Col>
           <Col>
-            <button className="button ml3" onClick={() => this.showSearch()}>{this.state.showAdv?'Hide':'Show'} Advanced Search</button>
+            <button className="button" onClick={() => this.showSearch()}>{this.state.showAdv?'Hide':'Show'} Advanced Search</button>
           </Col>
         </Row>
         
         {this.state.showAdv && (
           <div id="advancedSearch">
           <hr></hr>
-          <Row>
-          <Col xs sm = "12" md lg xl ="1">Title</Col>
-          <Col>
+          <Row className="search-title">
+            Search By Field
+          </Row>
+
+          <Row className="search-fields">
+            <Col xs sm = "12" md lg xl ="1">Title</Col>
+            <Col>
               <input
-                className="mr3"
+                // className="search-fields"
                 id='title'
                 type='text'
                 onChange={e => this.setState({ title: e.target.value })}
               />
             </Col>
+
             <Col xs sm = "12" md lg xl ="1">Artist</Col>
             <Col>
               <input
-                className="mr3"
+                // className="search-fields"
                 id='artist'
                 type='text'
                 onChange={e => this.setState({ artist: e.target.value })}
               />
             </Col>
           </Row>
-          <Row>
-          <Col xs sm = "12" md lg xl ="1">Tags</Col>            
-          <Col>
-            <input
-              className="mr3"
-              id='tags'
-              type='text'
-              onChange={e => this.setState({ tags: e.target.value })}
-            />
+
+          <Row className="search-fields">
+            <Col xs sm = "12" md lg xl ="1">Tags</Col>            
+            <Col>
+              <input
+                // className="search-fields"
+                id='tags'
+                type='text'
+                onChange={e => this.setState({ tags: e.target.value })}
+              />
             </Col>
+            
             <Col xs sm = "12" md lg xl ="1">Match</Col>
             <Col>
               <select
                 id='match'
-                className="mr1 ml1"
+                // className="search-fields"
                 onChange={e => this.setState({ match: e.target.value })}
               >
                 <option value="any">Any</option>
@@ -101,24 +111,22 @@ class Search extends Component {
             </Col>
           </Row>
           
-          <Row>
-          <Col xs sm = "12" md lg xl ="1">Description</Col>
-          <Col>
+          <Row className="search-fields">
+            <Col xs sm = "12" md lg xl ="1">Info</Col>
+            <Col>
               <input
                 id='description'
-                className="mr3"
                 type='textarea'
                 onChange={e => this.setState({ desc: e.target.value })}
               />
             </Col>
-
           </Row>
-          <button className="mt1 mb3 button" onClick={() => this._executeSearch()}>Search</button>
+          </div>
+          )}
+          <button className="button search-button" onClick={() => this._executeSearch()}>Search</button>
           {this.state.links.map((link, index) => (
             <Link key={link.id} link={link} index={index} />
           ))}
-        </div>
-        )}
       </Container>
     )
   }

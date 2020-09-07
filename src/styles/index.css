@@ -106,9 +106,8 @@ button[disabled]{
   /* color:rgb(89, 192, 98) */
 }
 .link{
-  padding: 10px 0px 10px;
+  padding: 15px 0px 15px;
   border-bottom: 1px solid #f1f1f1c7;
-
 }
 .item {
   margin-top: 6px;
@@ -125,9 +124,37 @@ button[disabled]{
 label{
   margin-right: 10px;
 }
+
+/********/
+/* Create Link */
+
 .submit-link {
   margin-top: 20px
 }
-.submit-title {
-  vertical-align: bottom;
+.edit-link-fieldname {
+  text-align: center;
+  vertical-align: baseline;
+  padding: 10px 0px 13px;
+  font-weight: bold;
+  font-size: large;
+}
+.edit-link-buttons {
+  padding: 15px 0px 12px;
+}
+
+/********/
+/* Search */
+
+.search-title {
+  text-align: center;
+  vertical-align: baseline;
+  padding: 0px 0px 6px;
+  font-weight: bold;
+  font-size: large;
+}
+.search-fields {
+  margin-top: 10px;
+}
+.search-button {
+  margin-top:12px
 }

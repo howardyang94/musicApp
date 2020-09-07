@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, Component } from 'react'
 import CreateLink from './CreateLink'
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
@@ -6,6 +6,11 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Media from 'react-bootstrap/Media'
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
+
 // import { AUTH_TOKEN } from '../constants'
 // import { timeDifferenceForDate } from '../utils'
 const DELETE_MUTATION = gql`
@@ -34,13 +39,53 @@ const timeOptions = {
     // second:'numeric'
 }
 
-// const home = 'http://localhost:3000'
 class Link extends Component {   
     state = {
         edit: false,
-        showPosted: false,
+        showPosted: true,
+        showDeleteModal: false
     }
-
+    
+    deleteModal() {
+        const id = this.props.link.id
+        const handleClose = () => this.setState({showDeleteModal: false});
+        const handleShow = () => this.setState({showDeleteModal: true});
+    
+        return (
+          <>
+            <p onClick={handleShow}>
+              Delete
+            </p>
+            <Modal
+                show={this.state.showDeleteModal}
+                onHide={handleClose}
+                backdrop="static"
+                keyboard={false}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Delete Post : {this.props.link.title} - {this.props.link.artist} </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to delete this post?  This action cannot be undone.
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                    <Mutation 
+                        mutation={DELETE_MUTATION}
+                        variables={{id}}
+                        update={(store, { data: { remove } }) => {
+                            this.props.updateCacheAfterRemove(store, remove, id)
+                        }}
+                    >
+                        {deleteMutation => <Button variant="primary" onClick={handleClose, deleteMutation}>Delete</Button>}
+                    </Mutation> 
+                </Modal.Footer>
+            </Modal>
+          </>
+        );
+      }
     editCallback = (data) => {
         this.setState({edit: data})
     }    
@@ -51,7 +96,6 @@ class Link extends Component {
         for(let i = 0; i < tagPropArr.length; i++ ) {
             arr.push(<span key={'tag'+i} className="ma1 pa1  ml0 f7 flex-wrap tag">{tagPropArr[i]}</span>)
         }
-        // console.log(this.props.link.id, arr)
         if(arr.length > 1) {
             return (
                 <p className="f6 lh-copy mv0 flex-wrap">{arr}</p>
@@ -93,44 +137,41 @@ class Link extends Component {
 
     render() {
         const { id, title, artist, tags, description, url } = this.props.link
-        const tagsArr = this.displayTags()
-        const youtubePlayer = this.youtubePlayer()
-        const postedBy = this.state.showPosted ? postedBy() : null
+        const postedBy = this.state.showPosted ? this.postedBy() : null
         // // const authToken = localStorage.getItem(AUTH_TOKEN)
         return (
-            <Media>
-                {!this.state.edit && (
-                    <Container fluid="lg" className="link" >
+            <Media className="link">
+                {/* {!this.state.edit && (  using the hidden property over JSX is better here so that the youtube api does not have to reload */}
+                    <Container hidden = {this.state.edit} fluid="lg">
                         <Row xs={1} s={1} md={1} lg={2} xl={2}>
                             <Col xs sm = "12" md lg xl="5">
                              {/* className="black-border"> */}
-                                {youtubePlayer}
+                                {this.youtubePlayer()}
                             </Col>
                             <Col xs sm = "12" md lg xl="auto">
                              {/* className="blue-border"> */}
-                                <h1 className="title">{this.props.link.title}</h1><h2 className="artist">{this.props.link.artist} </h2>
+                                <h1 className="title">{this.props.link.title}</h1>
+                                <h2 className="artist">{this.props.link.artist} </h2>
                                 <p className="f6 f5-l lh-copy">
                                     {this.props.link.description}
                                 </p>
-                                {tagsArr}
+                                {this.displayTags()}
                                 {postedBy}
                             </Col>
-                            <Col xs sm md lg xl="auto">
+                            <Col xs sm ={{span: 'auto', order:'first'}} md lg xl={{span: 'auto', order:'last'}}>
                             {/*   className="black-border"> */}
-                                <button className="button mt2" onClick={() => this.setState({edit: !this.state.edit})}>edit</button>                
-                                <Mutation 
-                                    mutation={DELETE_MUTATION}
-                                    variables={{id}}
-                                    update={(store, { data: { remove } }) => {
-                                        this.props.updateCacheAfterRemove(store, remove, id)
-                                    }}
-                                >
-                                    {deleteMutation => <button className="button mt2" onClick={deleteMutation}>delete</button>}
-                                </Mutation>
+                            <DropdownButton id="dropdown-basic-button" variant="secondary" title="&#8942;">
+                                <Dropdown.Item className="button mt2" onClick={() => this.setState({edit: !this.state.edit})}>
+                                    edit
+                                </Dropdown.Item>                
+                                <Dropdown.Item className="button">
+                                    {this.deleteModal()}
+                                </Dropdown.Item>
+                            </DropdownButton>
                             </Col>
                         </Row>
+                    
                 </Container>
-                )}
                 {this.state.edit && 
                     <CreateLink
                         id={id}

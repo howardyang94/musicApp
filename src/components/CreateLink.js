@@ -106,11 +106,11 @@ class CreateLink extends Component {
         const { id, title, artist, tags, description, url } = this.state
         return(
             <Container>
-                <div className="panel panel-default">
+                <div >
                     <FormErrors formErrors={this.state.formErrors} />
                 </div>
                     <Row>
-                        <Col className="submit-title" xs sm = "12" md lg = "2" xl = "1">
+                        <Col className="edit-link-fieldname" xs sm = "12" md lg = "2" xl = "1">
                             Title
                         </Col>
                         <Col>
@@ -125,7 +125,7 @@ class CreateLink extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col className="submit-title" xs sm = "12" md lg = "2" xl = "1">
+                        <Col className="edit-link-fieldname" xs sm = "12" md lg = "2" xl = "1">
                             Artist
                         </Col>
                         <Col>
@@ -140,7 +140,7 @@ class CreateLink extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col xs sm = "12" md lg = "2" xl = "1">
+                        <Col className="edit-link-fieldname" xs sm = "12" md lg = "2" xl = "1">
                             Tags
                         </Col>
                         <Col>
@@ -154,8 +154,8 @@ class CreateLink extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col xs sm = "12" md lg = "2" xl = "1">
-                            Description
+                        <Col className="edit-link-fieldname" xs sm = "12" md lg = "2" xl = "1">
+                            Info
                         </Col>
                         <Col>
                         <input
@@ -168,7 +168,7 @@ class CreateLink extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col xs sm = "12" md lg = "2" xl = "1">
+                        <Col className="edit-link-fieldname" xs sm = "12" md lg = "2" xl = "1">
                             Links
                         </Col>
                         <Col>
@@ -199,7 +199,7 @@ class CreateLink extends Component {
                     </Mutation>
                 )}
                 {this.state.edit && (
-                    <div>
+                    <div className="edit-link-buttons">
                         <button className="button mt2" onClick={() => this.complete('close')}>Close</button>
                         <button className="button mt2 ma3" onClick={() => this.complete('cancel')}>Discard Changes</button>
                         <Mutation
