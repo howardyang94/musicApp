@@ -10,7 +10,8 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
-
+import DropdownToggle from 'react-bootstrap/esm/DropdownToggle'
+import SplitButton from 'react-bootstrap/SplitButton'
 // import { AUTH_TOKEN } from '../constants'
 // import { timeDifferenceForDate } from '../utils'
 const DELETE_MUTATION = gql`
@@ -29,6 +30,20 @@ mutation DeleteMutation($id: ID!) {
     }
 }
 `
+const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+    <button
+      className="dropdownToggle"
+      href=""
+      ref={ref}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick(e);
+      }}
+    >
+      {children}
+      &#8942;
+    </button>
+  ));
 const timeOptions = {
     weekday: 'long',
     year:'numeric',
@@ -53,9 +68,9 @@ class Link extends Component {
     
         return (
           <>
-            <p onClick={handleShow}>
+            <span onClick={handleShow}>
               Delete
-            </p>
+            </span>
             <Modal
                 show={this.state.showDeleteModal}
                 onHide={handleClose}
@@ -94,7 +109,10 @@ class Link extends Component {
         let arr = []
         const tagPropArr = this.props.link.tags.split(' ');
         for(let i = 0; i < tagPropArr.length; i++ ) {
-            arr.push(<span key={'tag'+i} className="ma1 pa1  ml0 f7 flex-wrap tag">{tagPropArr[i]}</span>)
+            if(i > 0) {
+                arr.push(<span> </span>)
+            }
+            arr.push(<span key={'tag'+i} className="ma1 pa1  ml0 f7 flex-wrap tag"> {tagPropArr[i]}</span>)
         }
         if(arr.length > 1) {
             return (
@@ -160,14 +178,17 @@ class Link extends Component {
                             </Col>
                             <Col xs sm ={{span: 'auto', order:'first'}} md lg xl={{span: 'auto', order:'last'}}>
                             {/*   className="black-border"> */}
-                            <DropdownButton id="dropdown-basic-button" variant="secondary" title="&#8942;">
-                                <Dropdown.Item className="button mt2" onClick={() => this.setState({edit: !this.state.edit})}>
-                                    edit
-                                </Dropdown.Item>                
-                                <Dropdown.Item className="button">
-                                    {this.deleteModal()}
-                                </Dropdown.Item>
-                            </DropdownButton>
+                                <Dropdown>
+                                    <DropdownToggle  as={CustomToggle}/>
+                                    <Dropdown.Menu className="dropdownMenu">
+                                        <Dropdown.Item as="button" className="dropdownItem" onClick={() => this.setState({edit: !this.state.edit})}>
+                                            Edit
+                                        </Dropdown.Item>                
+                                        <Dropdown.Item as="button" className="dropdownItem" >
+                                            {this.deleteModal()}
+                                        </Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
                             </Col>
                         </Row>
                     

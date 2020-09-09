@@ -6,6 +6,8 @@ import { FEED_QUERY } from './LinkList'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Button from 'react-bootstrap/Button'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
 
 const POST_MUTATION = gql`
     mutation PostMutation($title: String!, $artist: String!, $tags: String, $description: String, $url: String) {
@@ -59,7 +61,6 @@ class CreateLink extends Component {
         }
     }
     validateField(name, value) {
-        console.log(this.state)
         let titleValid = this.state.titleValid
         let artistValid = this.state.artistValid
         let formErrors = this.state.formErrors
@@ -106,7 +107,7 @@ class CreateLink extends Component {
         const { id, title, artist, tags, description, url } = this.state
         return(
             <Container>
-                <div >
+                <div>
                     <FormErrors formErrors={this.state.formErrors} />
                 </div>
                     <Row>
@@ -195,27 +196,27 @@ class CreateLink extends Component {
                             })
                         }}
                     >
-                        {postMutation => <button className="button submit-link" disabled={!this.state.formValid} onClick={postMutation}>Submit</button>}
+                        {postMutation => <Button className="submit-link" disabled={!this.state.formValid} onClick={postMutation}>Submit</Button>}
                     </Mutation>
                 )}
                 {this.state.edit && (
-                    <div className="edit-link-buttons">
-                        <button className="button mt2" onClick={() => this.complete('close')}>Close</button>
-                        <button className="button mt2 ma3" onClick={() => this.complete('cancel')}>Discard Changes</button>
+                    <ButtonGroup>
+                        <Button variant="outline-secondary" onClick={() => this.complete('close')}>Close</Button>
+                        <Button variant="outline-info" onClick={() => this.complete('cancel')}>Discard Changes</Button>
                         <Mutation
                             mutation={EDIT_MUTATION}
                             variables={{id,title,artist,tags,description,url}}
                             onCompleted={() => this.complete('save')}
                         >
                             {editMutation => (
-                                <button className="button mt2" 
+                                <Button variant="primary" 
                                     disabled={!this.state.formValid} 
                                     onClick={editMutation}>
                                     Save
-                                </button>
+                                </Button>
                             )}
                         </Mutation>
-                    </div>
+                    </ButtonGroup>
                 )}            
             </Container>
         )

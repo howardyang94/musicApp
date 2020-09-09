@@ -5,6 +5,7 @@ import Link from './Link'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Button from 'react-bootstrap/Button'
 
 const FEED_SEARCH_QUERY = gql`
   query FeedSearchQuery($filter: String, $title: String, $artist: String, $tags: String, $match: String, $desc: String) {
@@ -35,7 +36,8 @@ class Search extends Component {
     tags:'',
     match:'',
     desc:'',
-    showAdv: false
+    showAdv: false,
+    search:false
   }
 
   render() {
@@ -53,7 +55,7 @@ class Search extends Component {
           />
           </Col>
           <Col>
-            <button className="button" onClick={() => this.showSearch()}>{this.state.showAdv?'Hide':'Show'} Advanced Search</button>
+            <Button variant="outline-primary" className="button" onClick={() => this.showSearch()}>{this.state.showAdv?'Hide':'Show'} Advanced Search</Button>
           </Col>
         </Row>
         
@@ -123,8 +125,9 @@ class Search extends Component {
           </Row>
           </div>
           )}
-          <button className="button search-button" onClick={() => this._executeSearch()}>Search</button>
-          {this.state.links.map((link, index) => (
+          <Button className="search-button" onClick={() => this._executeSearch()}>Search</Button>
+          {this.state.search && this.state.links.length === 0 ? <p>your search returned no results</p>
+          : this.state.links.map((link, index) => (
             <Link key={link.id} link={link} index={index} />
           ))}
       </Container>
@@ -141,7 +144,7 @@ class Search extends Component {
       variables: { filter, title, artist, tags, match, desc },
     })
     const links = result.data.feed.links
-    this.setState({ links })
+    this.setState({ links, search: true})
   }
 }
 
