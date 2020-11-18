@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button'
 
 const FEED_SEARCH_QUERY = gql`
   query FeedSearchQuery($filter: String, $title: String, $artist: String, $tags: String, $match: String, $desc: String) {
-    feed(filter: $filter title: $title artist:$artist tags:$tags match:$match desc:$desc) {
+    feed(filter: $filter title: $title artist:$artist tags:$tags match:$match description:$desc) {
       links {
         id
         title
@@ -23,6 +23,7 @@ const FEED_SEARCH_QUERY = gql`
           name
         }
       }
+      count
     }
   }
 `

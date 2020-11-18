@@ -108,12 +108,16 @@ button[disabled]{
   font-weight: 600;
   /* color:rgb(89, 192, 98) */
 }
+.description {
+  white-space: pre-line
+}
 .link{
   padding: 15px 0px 15px;
   border-bottom: 1px solid #f1f1f1c7;
 }
 .item {
   margin-top: 6px;
+
 }
 .link-list {
   margin-bottom: 30px;
@@ -153,7 +157,13 @@ label{
 
 /********/
 /* Create Link */
-
+.createLink input, textarea {
+  width:26vw 
+}
+textarea {
+  resize: both; 
+  height: 60px
+}
 .submit-link {
   margin-top: 20px
 }

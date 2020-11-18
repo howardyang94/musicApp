@@ -106,7 +106,7 @@ class CreateLink extends Component {
     render () {
         const { id, title, artist, tags, description, url } = this.state
         return(
-            <Container>
+            <Container className="createLink">
                 <div>
                     <FormErrors formErrors={this.state.formErrors} />
                 </div>
@@ -156,20 +156,6 @@ class CreateLink extends Component {
                     </Row>
                     <Row>
                         <Col className="edit-link-fieldname" xs sm = "12" md lg = "2" xl = "1">
-                            Info
-                        </Col>
-                        <Col>
-                        <input
-                            className="item"
-                            name="description"
-                            value={description}
-                            onChange={e => this.handleInput(e)}
-                            type="text"
-                        />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col className="edit-link-fieldname" xs sm = "12" md lg = "2" xl = "1">
                             Links
                         </Col>
                         <Col>
@@ -180,6 +166,21 @@ class CreateLink extends Component {
                                 onChange={e => this.handleInput(e)}
                                 type="text"
                             />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className="edit-link-fieldname" xs sm = "12" md lg = "2" xl = "1">
+                            Info
+                        </Col>
+                        <Col>
+                        <textarea
+                            oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+                            className="item"
+                            name="description"
+                            value={description}
+                            onChange={e => this.handleInput(e)}
+                            type="text"
+                        />
                         </Col>
                     </Row>
                 {!this.state.edit && (

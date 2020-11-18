@@ -170,7 +170,7 @@ class Link extends Component {
                              {/* className="blue-border"> */}
                                 <h1 className="title">{this.props.link.title}</h1>
                                 <h2 className="artist">{this.props.link.artist} </h2>
-                                <p className="f6 f5-l lh-copy">
+                                <p className="description">
                                     {this.props.link.description}
                                 </p>
                                 {this.displayTags()}
