@@ -78,7 +78,7 @@ class Link extends Component {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Delete Post : {this.props.link.title} - {this.props.link.artist} </Modal.Title>
+                    <Modal.Title>{this.props.link.title}&ensp;<i>{this.props.link.artist}</i></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     Are you sure you want to delete this post?  This action cannot be undone.
@@ -136,7 +136,7 @@ class Link extends Component {
         if(youtubeUrl) {
             return (
             <iframe id={'yp' + (this.props.index)}
-                width="440" height="300"
+                width="440" height="360"
                 src={youtubeUrl}
             ></iframe>
             )

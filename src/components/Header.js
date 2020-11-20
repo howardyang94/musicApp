@@ -19,11 +19,11 @@ class Header extends Component {
                 Top
               </Link>
               <div className="ml1">|</div> */}
-              <div className="p-2 pointer">
+              {/* <div className="p-2 pointer">
                 <Link to="/search" className="ml1 no-underline black">
                   search
                 </Link>
-              </div>
+              </div> */}
               <div className="p-2">
                 {authToken && (
                       <Link to="/create" className="ml1 no-underline black">

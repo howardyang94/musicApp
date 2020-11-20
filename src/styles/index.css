@@ -4,8 +4,6 @@ html {
 body {
   margin: 0;
   padding: 0;
-  /* font-family: Verdana, Geneva, sans-serif; */
-  color: white;
 }
 .container {
   /* display: flex; */
@@ -17,10 +15,9 @@ input {
 .gray {
   color: #828282;
 }
-.background-gray {
+/* .background-gray {
   background-color:white
-   /* rgb(238, 246, 247); */
-}
+} */
 .page-bottom{
   margin-top: 30px;
   text-align: right;
@@ -109,7 +106,11 @@ button[disabled]{
   /* color:rgb(89, 192, 98) */
 }
 .description {
-  white-space: pre-line
+  margin-top: 28px;
+  white-space: pre-line;
+  height: 150px;
+  /* max-height: 160px; */
+  overflow-y: auto;
 }
 .link{
   padding: 15px 0px 15px;
@@ -192,6 +193,18 @@ textarea {
 .search-fields {
   margin-top: 10px;
 }
-.search-button {
+.search-buttons {
   margin-top:12px
+}
+.search-button {
+  margin-right:4px
+}
+
+@media screen and (max-width: 900) {
+    .description {
+      margin-top: 28px;
+      white-space: pre-line;
+      overflow-y: auto;
+      height:auto
+    }
 }
